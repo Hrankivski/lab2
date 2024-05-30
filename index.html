@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Emissions Calculator</title>
+   <style>
+       .field { width: 180px; }
+       .btn {
+           margin-top: 20px;
+           padding: 10px;
+           border: 1px solid #000;
+           color: #000;
+           cursor: pointer;
+       }
+       .btn:hover {
+           background-color: rgb(160, 160, 160);
+       }
+       .block {
+           width: 700px;
+           border: 1px solid #000;
+           padding: 20px;
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           margin-bottom: 10px;
+       }
+       .block_item {
+           min-height: 70px;
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           border-bottom: 1px solid #000;
+       }
+       .block_input {
+           height: 30px;
+           text-align: center;
+       }
+       .result {
+           margin-top: 10px;
+           font-size: 24px;
+       }
+   </style>
+</head>
+<body>
+    <h1>Emissions of Suspended Particulates Calculator</h1>
+    <div class="block">
+        <div class="block_item">
+            <div class="text">Fuel Type:</div>
+            <select class="block_input" id="fuelType">
+                <option value="coal">Coal</option>
+                <option value="fuelOil">Fuel Oil</option>
+                <option value="naturalGas">Natural Gas</option>
+            </select>
+        </div>
+        <div class="block_item">
+            <div class="text">Fuel Usage (tonnes or m3):</div>
+            <input class="block_input" type="number" id="fuelUsage">
+        </div>
+        <div class="result" id="result"></div>
+        <button class="btn" id="calculate">Calculate</button>
+    </div>
+    <script>
+        document.getElementById('calculate').addEventListener('click', function() {
+            var fuelType = document.getElementById('fuelType').value;
+            var fuelUsage = parseFloat(document.getElementById('fuelUsage').value);
+            var emissionsFactor = 0; // Default to 0 g/GJ
+            var result = document.getElementById('result');
+
+            switch (fuelType) {
+                case 'coal':
+                    emissionsFactor = 150.0 * 20.47 / 1000000.0; // Example factor for coal
+                    break;
+                case 'fuelOil':
+                    emissionsFactor = 0.57 * 39.48 / 1000000.0; // Example factor for fuel oil
+                    break;
+                case 'naturalGas':
+                    emissionsFactor = 0; // No particulates for natural gas
+                    break;
+            }
+
+            var totalEmissions = emissionsFactor * fuelUsage;
+            result.innerText = 'Total Emissions: ' + totalEmissions.toFixed(3) + ' tonnes';
+        });
+    </script>
+</body>
+</html>
